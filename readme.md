@@ -1,3 +1,26 @@
+## Exercise: Making a guessing game
+
+We get that this is a fairly simple exercise and probably one of the first things we do when learning to program, but here, we’re going to do it a bit differently.
+
+In a usual guessing game, the program randomly generates a secret number that will be guessed by the user's inputs, usually using the CLI. This is interesting as it simulates a kind of lottery where the user has to guess the correct number. However, we see that in practice this lottery is rigged because the person organizing the lottery has to access to the secret and could leak it to someone else.
+
+We propose in this sample here to build an “**unbiased” lottery** in the sense that the secret number to be guessed will be generated inside the enclave. This way, no one will be able to cheat and everyone will have to guess it randomly instead of trying to peek directly at the value.
+
+There will be a simple interface: the host will create an enclave for the guessing game, and the secret number will be generated inside the enclave and **MUST NOT** be available directly to the outside world through any endpoint. However, the user’s input will be forwarded to the enclave which will output true if it is equal to the secret, and false otherwise. The host will then provide relevant messages to communicate the results.
+
+You can imagine the guessing game to have the following flow :
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bc45a752-a1c5-408f-9fc1-846922e2602d/Untitled.png)
+
+What you will need to do:
+
+- A host program will ask a prompt to the user, in this prompt, the user will write a number and then this number will be sent to the enclave for a checkup.
+- **Make sure as well that the enclave will initiate properly the number in its own memory**, and that the enclave will give a simple answer saying if it’s true or not.
+- Once a good answer is found, **make sure to exit the program properly and terminate the enclave properly as well**.
+    - As a bonus, you can try to make the enclave “lock itself”, and reject any further call from the host. You will be asked about your method to do it and why this method specifically.
+- Please make sure that the project will compile either with a Makefile or a CMakeLists.txt and run in simulation mode. We recommend providing a Makefile.
+
+
 ## Resources
 
 ### Introduction material
@@ -37,24 +60,4 @@ In this webinar, experts from the **Confidential Computing Consortium** (CCC) wi
 - The ecosystem available to support Confidential Computing application development
 - Common real-world use cases for Confidential Computing
 
-## Exercise: Making a guessing game
 
-We get that this is a fairly simple exercise and probably one of the first things we do when learning to program, but here, we’re going to do it a bit differently.
-
-In a usual guessing game, the program randomly generates a secret number that will be guessed by the user's inputs, usually using the CLI. This is interesting as it simulates a kind of lottery where the user has to guess the correct number. However, we see that in practice this lottery is rigged because the person organizing the lottery has to access to the secret and could leak it to someone else.
-
-We propose in this sample here to build an “**unbiased” lottery** in the sense that the secret number to be guessed will be generated inside the enclave. This way, no one will be able to cheat and everyone will have to guess it randomly instead of trying to peek directly at the value.
-
-There will be a simple interface: the host will create an enclave for the guessing game, and the secret number will be generated inside the enclave and **MUST NOT** be available directly to the outside world through any endpoint. However, the user’s input will be forwarded to the enclave which will output true if it is equal to the secret, and false otherwise. The host will then provide relevant messages to communicate the results.
-
-You can imagine the guessing game to have the following flow :
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bc45a752-a1c5-408f-9fc1-846922e2602d/Untitled.png)
-
-What you will need to do:
-
-- A host program will ask a prompt to the user, in this prompt, the user will write a number and then this number will be sent to the enclave for a checkup.
-- **Make sure as well that the enclave will initiate properly the number in its own memory**, and that the enclave will give a simple answer saying if it’s true or not.
-- Once a good answer is found, **make sure to exit the program properly and terminate the enclave properly as well**.
-    - As a bonus, you can try to make the enclave “lock itself”, and reject any further call from the host. You will be asked about your method to do it and why this method specifically.
-- Please make sure that the project will compile either with a Makefile or a CMakeLists.txt and run in simulation mode. We recommend providing a Makefile.
